@@ -1,52 +1,16 @@
 "use client"
-
-import type React from "react"
-
-import { useState } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Mail, Instagram, Twitter, Facebook, AlertCircle } from "lucide-react"
+import { Mail, Instagram, Twitter, Facebook } from "lucide-react"
 import CountdownTimer from "@/components/countdown-timer"
-import { toast } from "@/components/ui/use-toast"
-import { ToastAction } from "@/components/ui/toast"
 
 export default function ComingSoonPage() {
-  const [email, setEmail] = useState("")
-  const [isSubmitting, setIsSubmitting] = useState(false)
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
-      toast({
-        title: "Invalid email",
-        description: "Please enter a valid email address.",
-        variant: "destructive",
-      })
-      return
-    }
-
-    setIsSubmitting(true)
-
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false)
-      setEmail("")
-      toast({
-        title: "Success!",
-        description: "You've been added to our waitlist.",
-        action: <ToastAction altText="Dismiss">Dismiss</ToastAction>,
-      })
-    }, 1500)
-  }
-
   // Launch date - 30 days from now
   const launchDate = new Date()
   launchDate.setDate(launchDate.getDate() + 30)
 
   return (
-    <main className="min-h-screen flex flex-col">
+    <main className="min-h-screen flex flex-col overflow-x-hidden">
       {/* Background with gradient overlay */}
       <div className="fixed inset-0 bg-white z-[-1]">
         <div className="absolute inset-0 bg-[url('/football-stadium-night.png')] bg-cover bg-center opacity-5 mix-blend-multiply"></div>
@@ -82,37 +46,6 @@ export default function ComingSoonPage() {
             {/* Countdown timer */}
             <div className="py-8">
               <CountdownTimer targetDate={launchDate} />
-            </div>
-
-            {/* Newsletter signup */}
-            <div className="max-w-md mx-auto w-full">
-              <div className="bg-gray-50 p-6 rounded-lg border border-gray-200 shadow-sm">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center justify-center gap-2">
-                  <AlertCircle className="h-5 w-5 text-[#2656ba]" />
-                  Be the first to know when we launch
-                </h3>
-
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <Input
-                      type="email"
-                      placeholder="Enter your email"
-                      className="bg-white border-gray-200 text-gray-900 placeholder:text-gray-400"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
-                    <Button
-                      type="submit"
-                      className="bg-[#2656ba] hover:bg-[#1a3f8c] text-white"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? "Subscribing..." : "Notify Me"}
-                    </Button>
-                  </div>
-                  <p className="text-xs text-gray-500">We respect your privacy. Unsubscribe at any time.</p>
-                </form>
-              </div>
             </div>
           </div>
         </div>
